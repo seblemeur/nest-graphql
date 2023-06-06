@@ -1,5 +1,6 @@
 import {
   Args,
+  Context,
   Int,
   Mutation,
   Parent,
@@ -22,8 +23,8 @@ export class PetsResolver {
   }
 
   @Query((returns) => [Pet])
-  pets(): Promise<Pet[]> {
-    return this.petsService.findAll();
+  pets(@Args('page', { type: () => Int }) page?: number): Promise<Pet[]> {
+    return this.petsService.findAll(page ?? 0);
   }
 
   @ResolveField((returns) => Owner)

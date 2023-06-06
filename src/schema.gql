@@ -18,7 +18,7 @@ type Pet {
 
 type Query {
   getPet(id: Int!): Pet!
-  pets: [Pet!]!
+  pets(page: Int!): [Pet!]!
   owners: [Owner!]!
   owner(id: Int!): Owner!
 }

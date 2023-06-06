@@ -19,6 +19,7 @@ import { OwnersModule } from './owners/owners.module';
       database: ':memory:',
       entities: ['dist/**/*.entity{.ts,.js}'],
       synchronize: true,
+      logging: true, // Active le logging des requêtes SQL
     }),
     PetsModule,
     OwnersModule,
