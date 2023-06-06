@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Pet } from './pet.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { In, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { CreatePetInput } from './dto/create-pet.input';
 import { OwnersService } from 'src/owners/owners.service';
 import { Owner } from 'src/owners/entities/owner.entity';
@@ -38,27 +38,5 @@ export class PetsService {
 
   getOwner(ownerId: number): Promise<Owner> {
     return this.ownersService.findOne(ownerId);
-  }
-
-  public async getAllPetsByOwnerIds(
-    ownerIds: readonly number[],
-  ): Promise<Pet[]> {
-    return this.petsRepository.find({ where: { id: In([...ownerIds]) } });
-  }
-
-  public async getOwnersPetsByBatch(
-    ownersIds: readonly number[],
-  ): Promise<(Pet | any)[]> {
-    console.log(ownersIds);
-
-    const pets = await this.getAllPetsByOwnerIds(ownersIds);
-    const mappedResults = this._mapResultToIds(ownersIds, pets);
-    return mappedResults;
-  }
-
-  private _mapResultToIds(ownersIds: readonly number[], pets: Pet[]) {
-    return ownersIds.map(
-      (id) => pets.filter((pet: Pet) => pet.ownerId === id) || null,
-    );
   }
 }
